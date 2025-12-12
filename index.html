@@ -1,0 +1,1401 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nanigaon - गाँव से घर तक</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: linear-gradient(180deg, #e8f5e9, #f1f8e9, #fffde7);
+      color: #1b5e20;
+    }
+
+    /* TOP APP BAR */
+    .top-bar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: #2e7d32;
+      /* village banner use karna ho to:
+      background-image: url('village_bg.png');
+      background-size: cover;
+      background-position: center;
+      */
+      color: #fff;
+      padding: 8px 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+
+    .top-inner {
+      max-width: 520px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-circle {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: #ffffff22;
+      overflow: hidden;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-circle img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .brand-text { flex: 1; }
+
+    .brand-title {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .brand-tagline {
+      margin: 2px 0 0;
+      font-size: 12px;
+      opacity: 0.95;
+    }
+
+    .brand-sub {
+      font-size: 10px;
+      opacity: 0.9;
+    }
+
+    .pincode-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 4px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: #1b5e20aa;
+      font-size: 10px;
+    }
+
+    .top-cart {
+      text-align: right;
+      font-size: 11px;
+    }
+
+    /* MAIN CONTAINER */
+    .page {
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 10px 12px 90px;
+    }
+
+    /* OFFER STRIP */
+    .offer-strip {
+      margin-top: 8px;
+      padding: 6px 10px;
+      background: #fff8e1;
+      border-radius: 10px;
+      border: 1px solid #ffe082;
+      font-size: 12px;
+      color: #5d4037;
+    }
+    .offer-strip b { color: #e65100; }
+    .offer-strip a {
+      color: #2e7d32;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    /* HERO BANNER */
+    .hero {
+      margin-top: 10px;
+      border-radius: 16px;
+      overflow: hidden;
+      background: linear-gradient(120deg, #1b5e20, #66bb6a);
+      color: #fff;
+      display: flex;
+      padding: 10px 12px;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .hero-text-main {
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .hero-text-sub {
+      margin-top: 4px;
+      font-size: 12px;
+      opacity: 0.95;
+    }
+
+    .hero-chip {
+      margin-top: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      background: #ffffff22;
+      border-radius: 999px;
+      font-size: 11px;
+    }
+
+    .hero-cta {
+      margin-top: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      background: #ffca28;
+      color: #4e342e;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .hero-img {
+      flex-shrink: 0;
+      width: 90px;
+      height: 90px;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #f1f8e9;
+      border: 1px solid #c8e6c9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .hero-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* CATEGORY ROW */
+    .categories {
+      margin-top: 12px;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+    .cat-pill {
+      min-width: 120px;
+      padding: 6px 8px;
+      border-radius: 999px;
+      background: #ffffff;
+      border: 1px solid #c8e6c9;
+      font-size: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      white-space: nowrap;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+    .cat-icon { font-size: 16px; }
+
+    /* SECTION TITLES */
+    .section-title {
+      margin: 16px 4px 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 15px;
+      font-weight: 600;
+      color: #1b5e20;
+    }
+    .section-title small {
+      font-size: 11px;
+      color: #555;
+      font-weight: 400;
+    }
+
+    /* PRODUCT CARDS */
+    .products {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .product-card {
+      background: #ffffff;
+      border-radius: 14px;
+      padding: 9px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+      display: flex;
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    .product-img-wrap {
+      width: 78px;
+      height: 78px;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #f1f8e9;
+      border: 1px solid #c8e6c9;
+      flex-shrink: 0;
+    }
+
+    .product-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .product-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .product-name {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .product-desc {
+      margin-top: 2px;
+      font-size: 11px;
+      color: #555;
+    }
+
+    .chips-row {
+      margin-top: 5px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+
+    .chip-toggle {
+      padding: 3px 8px;
+      font-size: 11px;
+      border-radius: 999px;
+      border: 1px solid #c8e6c9;
+      background: #f9fff9;
+      cursor: pointer;
+    }
+
+    .chip-toggle.active {
+      background: #2e7d32;
+      color: #fff;
+      border-color: #2e7d32;
+    }
+
+    .variant-select {
+      margin-top: 4px;
+      font-size: 12px;
+      padding: 4px 6px;
+      border-radius: 6px;
+      border: 1px solid #c8e6c9;
+      background: #f9fff9;
+      width: 100%;
+    }
+
+    .product-price {
+      margin-top: 4px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #2e7d32;
+    }
+
+    .product-side {
+      text-align: right;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .qty-label {
+      font-size: 10px;
+      color: #666;
+      margin-bottom: 2px;
+    }
+
+    .qty-controls {
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid #c8e6c9;
+      border-radius: 20px;
+      overflow: hidden;
+      background: #f1f8e9;
+    }
+
+    .qty-controls button {
+      border: none;
+      padding: 3px 8px;
+      background: #c8e6c9;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .qty-controls span {
+      padding: 0 8px;
+      font-size: 13px;
+      min-width: 20px;
+      text-align: center;
+    }
+
+    .small-text {
+      font-size: 10px;
+      color: #666;
+      margin-top: 2px;
+    }
+
+    .milk-summary {
+      margin-top: 4px;
+      font-size: 11px;
+      color: #33691e;
+    }
+
+    /* CART SUMMARY */
+    .cart-summary {
+      margin-top: 16px;
+      padding: 10px;
+      border-radius: 14px;
+      background: #ffffff;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+      font-size: 13px;
+    }
+
+    .cart-items {
+      font-size: 12px;
+      margin-top: 6px;
+      max-height: 140px;
+      overflow-y: auto;
+    }
+
+    .cart-item-line {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 3px;
+    }
+
+    .cart-row {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 4px;
+    }
+
+    .cart-row.total {
+      font-weight: 700;
+      color: #1b5e20;
+      border-top: 1px dashed #c8e6c9;
+      padding-top: 6px;
+      margin-top: 8px;
+    }
+
+    /* COUPON */
+    .coupon-row {
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+
+    .coupon-input {
+      flex: 1;
+      min-width: 140px;
+      padding: 5px 6px;
+      font-size: 12px;
+      border-radius: 6px;
+      border: 1px solid #c8e6c9;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 7px 10px;
+      font-size: 13px;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .btn-secondary {
+      background: #e0e0e0;
+      color: #222;
+    }
+
+    .btn-primary {
+      background: #2e7d32;
+      color: #fff;
+    }
+
+    .btn-full { width: 100%; }
+
+    #couponMsg {
+      font-size: 11px;
+      margin-top: 3px;
+    }
+
+    /* FORM */
+    form {
+      margin-top: 18px;
+      background: #ffffff;
+      border-radius: 14px;
+      padding: 10px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    }
+
+    label {
+      font-size: 13px;
+      display: block;
+      margin-top: 8px;
+      margin-bottom: 4px;
+    }
+
+    input[type="text"], input[type="tel"], textarea {
+      width: 100%;
+      padding: 7px 8px;
+      border-radius: 6px;
+      border: 1px solid #a5d6a7;
+      font-size: 13px;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 60px;
+    }
+
+    .info-note {
+      font-size: 11px;
+      color: #777;
+      margin-top: 6px;
+    }
+
+    .payment-info-box {
+      margin-top: 10px;
+      font-size: 12px;
+      background: #fff8e1;
+      border-radius: 8px;
+      padding: 8px;
+      border: 1px solid #ffe082;
+      color: #5d4037;
+    }
+
+    .location-box {
+      margin-top: 6px;
+      font-size: 12px;
+    }
+
+    .location-status {
+      font-size: 12px;
+      margin-top: 4px;
+      color: #666;
+    }
+
+    .success-msg {
+      display: none;
+      margin-top: 10px;
+      padding: 8px;
+      border-radius: 6px;
+      font-size: 13px;
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
+
+    /* BOTTOM BAR */
+    .bottom-bar {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: #2e7d32;
+      color: #fff;
+      padding: 6px 10px;
+      box-shadow: 0 -2px 6px rgba(0,0,0,0.3);
+      z-index: 40;
+    }
+    .bottom-inner {
+      max-width: 520px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 12px;
+    }
+    .bottom-btn {
+      background: #ffca28;
+      color: #4e342e;
+      border-radius: 999px;
+      padding: 7px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 11px;
+      color: #777;
+      margin: 12px 0 80px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <div class="top-inner">
+      <div class="logo-circle">
+        <img src="logo.png" alt="Nanigaon Logo">
+      </div>
+      <div class="brand-text">
+        <p class="brand-title">Nanigaon</p>
+        <p class="brand-tagline">गाँव से घर तक</p>
+        <p class="brand-sub">Fresh milk, eggs, paneer & curd</p>
+        <div class="pincode-pill">
+          📍 Delivering only to pincode <b>481661</b>
+        </div>
+      </div>
+      <div class="top-cart">
+        <div id="topCartItems">0 items</div>
+        <div id="topCartTotal">₹0</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page">
+
+    <!-- OFFER STRIP -->
+    <div class="offer-strip">
+      🎁 <b>First Order Offer:</b> coupon <b>NANI10</b> से 10% छूट (new customers के लिए).<br />
+      🔔 Future offers & updates: Insta पर follow करें –
+      <span id="instaText"></span>
+    </div>
+
+    <!-- HERO -->
+    <div class="hero" id="heroMilk">
+      <div style="flex:1;">
+        <div class="hero-text-main">
+          Subah-subah का दूध अब Nanigaon से सीधे घर तक 🥛
+        </div>
+        <div class="hero-text-sub">
+          Daily milk subscription के साथ बचत करें. Service अभी सिर्फ <b>481661</b> पincode के लिए.
+        </div>
+        <div class="hero-chip">
+          ✅ UPI QR से advance payment • 🚚 Local morning delivery
+        </div>
+        <div class="hero-cta" onclick="scrollToMilk()">
+          🥛 Milk & Subscription देखें
+        </div>
+      </div>
+      <div class="hero-img">
+        <img src="milk.png" alt="Nanigaon Milk">
+      </div>
+    </div>
+
+    <!-- CATEGORY ROW -->
+    <div class="categories">
+      <div class="cat-pill" onclick="scrollToMilk()">
+        <span class="cat-icon">🥛</span> <span>Milk & Subscription</span>
+      </div>
+      <div class="cat-pill" onclick="scrollToSection('sectionPaneerCurd')">
+        <span class="cat-icon">🧀</span> <span>Paneer & Curd</span>
+      </div>
+      <div class="cat-pill" onclick="scrollToSection('sectionEggs')">
+        <span class="cat-icon">🥚</span> <span>Eggs</span>
+      </div>
+    </div>
+
+    <!-- MILK SECTION -->
+    <div class="section-title" id="sectionMilk">
+      <span>🥛 Milk (Full Cream)</span>
+      <small>Variant, plan & daily qty चुनें</small>
+    </div>
+
+    <div class="products" id="productsListMilk"></div>
+
+    <!-- OTHER PRODUCTS -->
+    <div class="section-title" id="sectionPaneerCurd">
+      <span>🧀 Paneer & Curd</span>
+      <small>Daily fresh dairy</small>
+    </div>
+    <div class="products" id="productsListPaneerCurd"></div>
+
+    <div class="section-title" id="sectionEggs">
+      <span>🥚 Eggs</span>
+      <small>Breakfast essential</small>
+    </div>
+    <div class="products" id="productsListEggs"></div>
+
+    <!-- CART SUMMARY -->
+    <div class="cart-summary">
+      <div><strong>Cart Summary</strong></div>
+      <div class="cart-items" id="cartItems">
+        अभी तक कोई item नहीं जोड़ा गया है।
+      </div>
+
+      <!-- Coupon -->
+      <div class="info-note" style="margin-top:8px;">
+        First order new customer के लिए 10% discount coupon:
+      </div>
+      <div class="coupon-row">
+        <input type="text" class="coupon-input" id="couponInput" placeholder="Coupon code (जैसे: NANI10)" />
+        <button type="button" class="btn btn-secondary" onclick="applyCoupon()">Apply</button>
+      </div>
+      <div id="couponMsg"></div>
+
+      <!-- Totals -->
+      <div class="cart-row">
+        <span>Items Subtotal:</span>
+        <span id="itemsSubtotal">₹0</span>
+      </div>
+      <div class="cart-row">
+        <span>Milk Subscription बचत:</span>
+        <span id="subDiscount">-₹0</span>
+      </div>
+      <div class="cart-row">
+        <span>Coupon Discount:</span>
+        <span id="couponDiscount">-₹0</span>
+      </div>
+      <div class="cart-row total">
+        <span id="cartCount">Items: 0</span>
+        <span id="cartTotal">Final Total: ₹0</span>
+      </div>
+
+      <div class="info-note">
+        * Milk: 500 ml ₹38 • 1L ₹65 | Paneer: 250g ₹130 • 500g ₹250 • 1kg ₹500 | Curd: 500g ₹70 • 1kg ₹130 | Eggs: 6 pcs ₹70
+      </div>
+    </div>
+
+    <!-- CUSTOMER FORM -->
+    <form id="orderForm" onsubmit="sendOrder(event)">
+      <div class="section-title" style="margin-top:4px;">
+        <span>📄 ग्राहक जानकारी</span>
+        <small>Order WhatsApp से जाएगा</small>
+      </div>
+
+      <label for="customerName">नाम *</label>
+      <input type="text" id="customerName" placeholder="अपना पूरा नाम लिखें" required />
+
+      <label for="customerPhone">मोबाइल नंबर (WhatsApp) *</label>
+      <input type="tel" id="customerPhone" placeholder="10 अंकों का मोबाइल नंबर" required />
+
+      <label for="customerPincode">Pincode</label>
+      <input type="text" id="customerPincode" placeholder="जैसे: 481661 (फिलहाल service इसी के लिए)" />
+
+      <label for="customerAddress">डिलिवरी पता *</label>
+      <textarea id="customerAddress" placeholder="मकान नंबर, गली, मोहल्ला, city, pincode..." required></textarea>
+
+      <div class="info-note">
+        * अभी delivery service सिर्फ pincode <b>481661</b> के लिए है. बाहर के order पर हम WhatsApp से inform कर देंगे.
+      </div>
+
+      <div class="location-box">
+        <label>लोकेशन (optional)</label>
+        <button type="button" class="btn btn-secondary" onclick="getLocation()">📍 मेरी लोकेशन लें</button>
+        <div class="location-status" id="locationStatus">
+          चाहें तो Google Maps की लोकेशन भी भेज सकते हैं, नहीं तो सिर्फ पता भी काफी है।
+        </div>
+      </div>
+
+      <div class="payment-info-box">
+        <strong>💳 Payment Process (UPI QR only)</strong>
+        1️⃣ आप यहाँ से order भेजेंगे।<br />
+        2️⃣ हम आपके WhatsApp नंबर पर अपना <b>UPI QR code</b> भेजेंगे।<br />
+        3️⃣ Payment receive होते ही आपका order confirm कर दिया जाएगा।<br />
+        <b>Cash on Delivery उपलब्ध नहीं है.</b>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-full" style="margin-top:12px;">
+        ✅ WhatsApp पर Order भेजें
+      </button>
+
+      <div class="info-note">
+        * बटन दबाने के बाद WhatsApp खुलेगा और पूरा ऑर्डर अपने आप टाइप हो जाएगा, बस आपको "Send" करना होगा।
+      </div>
+
+      <div class="success-msg" id="successMsg">
+        Order message तैयार हो गया है, WhatsApp में भेजें और फिर हमसे QR का इंतज़ार करें 🙂
+      </div>
+    </form>
+
+    <footer>
+      © <span id="year"></span> Nanigaon • गाँव से घर तक<br />
+      Offers & updates Insta पर: <span id="instaTextFooter"></span>
+    </footer>
+
+  </div>
+
+  <!-- BOTTOM BAR -->
+  <div class="bottom-bar">
+    <div class="bottom-inner">
+      <div>
+        <div id="bottomCartItems">0 items</div>
+        <div id="bottomCartTotal">₹0 Total</div>
+      </div>
+      <button class="bottom-btn" type="button" onclick="scrollToForm()">
+        Checkout / Details
+      </button>
+    </div>
+  </div>
+
+<script>
+  // ===== SETTINGS – yahan apna data भरो =====
+
+  // 1) WhatsApp number (without +, India => 91 + number)
+  const OWNER_WHATSAPP_NUMBER = "918109742535"; // CHANGE_THIS_WHATSAPP
+
+  // 2) Insta page link
+  const INSTAGRAM_PAGE_URL = "https://www.instagram.com/nanigaonofficial"; // CHANGE_THIS_INSTA
+
+  // 3) Coupon settings
+  const COUPON_CODE = "NANI10";        // CHANGE_THIS_IF_NEEDED
+  const COUPON_DISCOUNT_PERCENT = 10;  // 10% discount
+
+  // ===== PRODUCT DATA =====
+
+  const products = [
+    {
+      id: 1,
+      type: "milk",
+      name: "दूध",
+      desc: "फुल क्रीम दूध",
+      img: "milk.png",
+      variants: [
+        { label: "500 ml", price: 38 },
+        { label: "1 लीटर", price: 65 }
+      ],
+      isSubscriptionEnabled: true,
+      subscriptionPlans: [
+        { label: "7 दिन",   days: 7,   discountPercent: 11.0 },
+        { label: "15 दिन",  days: 15,  discountPercent: 11.85 },
+        { label: "30 दिन",  days: 30,  discountPercent: 12.7 },
+        { label: "90 दिन",  days: 90,  discountPercent: 13.55 },
+        { label: "180 दिन", days: 180, discountPercent: 14.4 }
+      ]
+    },
+    {
+      id: 2,
+      type: "egg",
+      name: "अंडे",
+      desc: "ताज़ा अंडे",
+      img: "eggs.png",
+      variants: [
+        { label: "6 पीस", price: 70 }
+      ],
+      isSubscriptionEnabled: false
+    },
+    {
+      id: 3,
+      type: "paneer",
+      name: "पनीर",
+      desc: "ताज़ा पनीर",
+      img: "paneer.png",
+      variants: [
+        { label: "250 ग्राम", price: 130 },
+        { label: "500 ग्राम", price: 250 },
+        { label: "1 किलो",   price: 500 }
+      ],
+      isSubscriptionEnabled: false
+    },
+    {
+      id: 4,
+      type: "curd",
+      name: "दही",
+      desc: "ताज़ा दही",
+      img: "curd.png",
+      variants: [
+        { label: "500 ग्राम", price: 70 },
+        { label: "1 किलो",   price: 130 }
+      ],
+      isSubscriptionEnabled: false
+    }
+  ];
+
+  // cart[productId] = quantity (milk me => daily quantity)
+  const cart = {};
+  let userLocationLink = "";
+  let couponApplied = false;
+  let subscriptionDiscountAmount = 0;
+  let couponDiscountAmount = 0;
+
+  // ===== RENDER PRODUCTS =====
+
+  function renderProducts() {
+    const milkContainer = document.getElementById("productsListMilk");
+    const paneerCurdContainer = document.getElementById("productsListPaneerCurd");
+    const eggsContainer = document.getElementById("productsListEggs");
+
+    milkContainer.innerHTML = "";
+    paneerCurdContainer.innerHTML = "";
+    eggsContainer.innerHTML = "";
+
+    products.forEach(p => {
+      if (p.type === "milk") {
+        milkContainer.appendChild(createMilkCard(p));
+      } else if (p.type === "paneer" || p.type === "curd") {
+        paneerCurdContainer.appendChild(createSimpleCard(p));
+      } else if (p.type === "egg") {
+        eggsContainer.appendChild(createSimpleCard(p));
+      }
+    });
+  }
+
+  function createMilkCard(p) {
+    const card = document.createElement("div");
+    card.className = "product-card";
+
+    let variantOptions = "";
+    p.variants.forEach((v, idx) => {
+      variantOptions += `<option value="${idx}">${v.label} - ₹${v.price}</option>`;
+    });
+
+    let planChips = "";
+    p.subscriptionPlans.forEach((plan, idx) => {
+      planChips += `
+        <button type="button"
+          class="chip-toggle ${idx === 2 ? "active" : ""}"
+          data-plan-index="${idx}"
+          onclick="selectMilkPlan(${p.id}, ${idx})">
+          ${plan.label} • ${plan.discountPercent}% OFF
+        </button>
+      `;
+    });
+
+    card.innerHTML = `
+      <div class="product-img-wrap">
+        <img src="${p.img}" alt="${p.name}">
+      </div>
+      <div class="product-main">
+        <div>
+          <div class="product-name">${p.name}</div>
+          <div class="product-desc">${p.desc}</div>
+
+          <select id="variant-${p.id}" class="variant-select" onchange="updateCartSummary()">
+            ${variantOptions}
+          </select>
+
+          <div class="chips-row" style="margin-top:6px;">
+            <button type="button"
+              class="chip-toggle active"
+              id="mode-onetime-${p.id}"
+              onclick="setMilkMode(${p.id}, 'one-time')">
+              एक बार का ऑर्डर
+            </button>
+            <button type="button"
+              class="chip-toggle"
+              id="mode-sub-${p.id}"
+              onclick="setMilkMode(${p.id}, 'subscription')">
+              Daily subscription
+            </button>
+          </div>
+
+          <div class="chips-row" id="milkPlans-${p.id}" style="display:none; margin-top:6px;">
+            ${planChips}
+          </div>
+
+          <div class="product-price" id="price-${p.id}">
+            ₹${p.variants[0].price}
+          </div>
+
+          <div class="milk-summary" id="milkSummary-${p.id}" style="display:none;"></div>
+        </div>
+      </div>
+      <div class="product-side">
+        <div>
+          <div class="qty-label" id="qtyLabel-${p.id}">Qty (pack)</div>
+          <div class="qty-controls">
+            <button type="button" onclick="changeQty(${p.id}, -1)">-</button>
+            <span id="qty-${p.id}">0</span>
+            <button type="button" onclick="changeQty(${p.id}, 1)">+</button>
+          </div>
+        </div>
+        <div class="small-text">
+          Qty चुनें, नीचे Cart में जुड़ जाएगा
+        </div>
+      </div>
+    `;
+
+    return card;
+  }
+
+  function createSimpleCard(p) {
+    const card = document.createElement("div");
+    card.className = "product-card";
+
+    let options = "";
+    p.variants.forEach((v, idx) => {
+      options += `<option value="${idx}">${v.label} - ₹${v.price}</option>`;
+    });
+
+    card.innerHTML = `
+      <div class="product-img-wrap">
+        <img src="${p.img}" alt="${p.name}">
+      </div>
+      <div class="product-main">
+        <div>
+          <div class="product-name">${p.name}</div>
+          <div class="product-desc">${p.desc}</div>
+          <select id="variant-${p.id}" class="variant-select" onchange="updateCartSummary()">
+            ${options}
+          </select>
+          <div class="product-price" id="price-${p.id}">
+            ₹${p.variants[0].price}
+          </div>
+        </div>
+      </div>
+      <div class="product-side">
+        <div>
+          <div class="qty-label">Qty</div>
+          <div class="qty-controls">
+            <button type="button" onclick="changeQty(${p.id}, -1)">-</button>
+            <span id="qty-${p.id}">0</span>
+            <button type="button" onclick="changeQty(${p.id}, 1)">+</button>
+          </div>
+        </div>
+        <div class="small-text">
+          Qty चुनें, Cart में जुड़ जाएगा
+        </div>
+      </div>
+    `;
+
+    return card;
+  }
+
+  // ===== MILK MODE / PLANS =====
+
+  function getMilkState(productId) {
+    return window.__milkState || (window.__milkState = {
+      mode: "one-time",      // 'one-time' | 'subscription'
+      selectedPlanIndex: 2   // default 30 दिन
+    });
+  }
+
+  function setMilkMode(productId, mode) {
+    const state = getMilkState(productId);
+    state.mode = mode;
+
+    const btnOne = document.getElementById("mode-onetime-" + productId);
+    const btnSub = document.getElementById("mode-sub-" + productId);
+    const plansRow = document.getElementById("milkPlans-" + productId);
+    const qtyLabel = document.getElementById("qtyLabel-" + productId);
+    const summary = document.getElementById("milkSummary-" + productId);
+
+    if (!btnOne || !btnSub || !plansRow || !qtyLabel || !summary) return;
+
+    if (mode === "one-time") {
+      btnOne.classList.add("active");
+      btnSub.classList.remove("active");
+      plansRow.style.display = "none";
+      qtyLabel.innerText = "Qty (pack)";
+      summary.style.display = "none";
+    } else {
+      btnOne.classList.remove("active");
+      btnSub.classList.add("active");
+      plansRow.style.display = "flex";
+      qtyLabel.innerText = "Qty (रोज़ का)";
+      summary.style.display = "block";
+    }
+
+    updateCartSummary();
+  }
+
+  function selectMilkPlan(productId, idx) {
+    const state = getMilkState(productId);
+    state.selectedPlanIndex = idx;
+
+    const p = products.find(x => x.id === productId);
+    if (!p) return;
+
+    const plansRow = document.getElementById("milkPlans-" + productId);
+    if (!plansRow) return;
+
+    const buttons = plansRow.querySelectorAll(".chip-toggle");
+    buttons.forEach(btn => btn.classList.remove("active"));
+
+    const btn = plansRow.querySelector(`[data-plan-index="${idx}"]`);
+    if (btn) btn.classList.add("active");
+
+    updateCartSummary();
+  }
+
+  // ===== CART QTY =====
+
+  function changeQty(productId, delta) {
+    if (!cart[productId]) cart[productId] = 0;
+    cart[productId] += delta;
+    if (cart[productId] < 0) cart[productId] = 0;
+
+    const span = document.getElementById("qty-" + productId);
+    if (span) span.innerText = cart[productId];
+
+    updateCartSummary();
+  }
+
+  // ===== COUPON =====
+
+  function applyCoupon() {
+    const input = document.getElementById("couponInput");
+    const msg = document.getElementById("couponMsg");
+    if (!input || !msg) return;
+
+    const codeTyped = (input.value || "").trim().toUpperCase();
+    if (!codeTyped) {
+      couponApplied = false;
+      couponDiscountAmount = 0;
+      msg.style.color = "#d32f2f";
+      msg.innerText = "कूपन code लिखें (जैसे: " + COUPON_CODE + ")";
+      updateCartSummary();
+      return;
+    }
+
+    if (codeTyped === COUPON_CODE.toUpperCase()) {
+      couponApplied = true;
+      msg.style.color = "#2e7d32";
+      msg.innerText = "कूपन लागू हो गया ✅ (पहले order पर 10% discount).";
+    } else {
+      couponApplied = false;
+      couponDiscountAmount = 0;
+      msg.style.color = "#d32f2f";
+      msg.innerText = "गलत कूपन code. केवल " + COUPON_CODE + " मान्य है.";
+    }
+
+    updateCartSummary();
+  }
+
+  // ===== CART SUMMARY / BILLING =====
+
+  function updateCartSummary() {
+    const cartItemsDiv = document.getElementById("cartItems");
+    const itemsSubtotalSpan = document.getElementById("itemsSubtotal");
+    const subDiscountSpan = document.getElementById("subDiscount");
+    const couponDiscountSpan = document.getElementById("couponDiscount");
+    const cartCountSpan = document.getElementById("cartCount");
+    const cartTotalSpan = document.getElementById("cartTotal");
+
+    const topCartItems = document.getElementById("topCartItems");
+    const topCartTotal = document.getElementById("topCartTotal");
+    const bottomCartItems = document.getElementById("bottomCartItems");
+    const bottomCartTotal = document.getElementById("bottomCartTotal");
+
+    let lines = [];
+    let totalItems = 0;
+    let itemsSubtotal = 0;
+    let milkSubDiscount = 0;
+
+    // loop products
+    products.forEach(p => {
+      const qty = cart[p.id] || 0;
+      if (qty <= 0) return;
+
+      const variantSelect = document.getElementById("variant-" + p.id);
+      let variantIdx = 0;
+      if (variantSelect) {
+        variantIdx = parseInt(variantSelect.value, 10) || 0;
+      }
+      const variant = p.variants[variantIdx];
+      const price = variant.price;
+      const label = variant.label;
+
+      if (p.type === "milk") {
+        const state = getMilkState(p.id);
+        if (state.mode === "subscription") {
+          const plan = p.subscriptionPlans[state.selectedPlanIndex || 0];
+          const days = plan.days;
+          const discPercent = plan.discountPercent;
+
+          const baseUnits = qty * days;
+          const baseTotal = baseUnits * price;
+          const discAmount = Math.round(baseTotal * (discPercent / 100));
+          const net = baseTotal - discAmount;
+
+          totalItems += baseUnits;
+          itemsSubtotal += baseTotal;
+          milkSubDiscount += discAmount;
+
+          lines.push(
+            `<div class="cart-item-line">
+              <span>${p.name} ${label} – daily ${qty} × ${days} दिन</span>
+              <span>₹${net}</span>
+            </div>
+            <div class="cart-item-line" style="font-size:11px; color:#33691e;">
+              <span>Base: ₹${baseTotal}</span>
+              <span>Save ${discPercent}% (₹${discAmount})</span>
+            </div>`
+          );
+
+          const summaryEl = document.getElementById("milkSummary-" + p.id);
+          if (summaryEl) {
+            summaryEl.style.display = "block";
+            summaryEl.innerText =
+              `Daily ${qty} × ${days} दिन = ${baseUnits} pack, ` +
+              `Base ₹${baseTotal}, बचत ${discPercent}% (₹${discAmount}), Net ₹${net}`;
+          }
+        } else {
+          const baseTotal = qty * price;
+          totalItems += qty;
+          itemsSubtotal += baseTotal;
+
+          lines.push(
+            `<div class="cart-item-line">
+              <span>${p.name} ${label} x ${qty}</span>
+              <span>₹${baseTotal}</span>
+            </div>`
+          );
+
+          const summaryEl = document.getElementById("milkSummary-" + p.id);
+          if (summaryEl) {
+            summaryEl.style.display = "none";
+          }
+        }
+      } else {
+        const baseTotal = qty * price;
+        totalItems += qty;
+        itemsSubtotal += baseTotal;
+
+        lines.push(
+          `<div class="cart-item-line">
+            <span>${p.name} (${label}) x ${qty}</span>
+            <span>₹${baseTotal}</span>
+          </div>`
+        );
+      }
+    });
+
+    if (lines.length === 0) {
+      cartItemsDiv.innerHTML = "अभी तक कोई item नहीं जोड़ा गया है।";
+      totalItems = 0;
+      itemsSubtotal = 0;
+      milkSubDiscount = 0;
+    } else {
+      cartItemsDiv.innerHTML = lines.join("");
+    }
+
+    subscriptionDiscountAmount = milkSubDiscount;
+
+    // coupon discount after subscription discount (allowed on full bill)
+    let afterSubTotal = itemsSubtotal - subscriptionDiscountAmount;
+    if (afterSubTotal < 0) afterSubTotal = 0;
+
+    if (couponApplied && afterSubTotal > 0) {
+      couponDiscountAmount = Math.round(afterSubTotal * (COUPON_DISCOUNT_PERCENT / 100));
+    } else {
+      couponDiscountAmount = 0;
+    }
+
+    let finalTotal = afterSubTotal - couponDiscountAmount;
+    if (finalTotal < 0) finalTotal = 0;
+
+    // update UI
+    itemsSubtotalSpan.innerText = "₹" + itemsSubtotal;
+    subDiscountSpan.innerText = "-₹" + subscriptionDiscountAmount;
+    couponDiscountSpan.innerText = "-₹" + couponDiscountAmount;
+    cartCountSpan.innerText = "Items: " + totalItems;
+    cartTotalSpan.innerText = "Final Total: ₹" + finalTotal;
+
+    topCartItems.innerText = totalItems + " items";
+    topCartTotal.innerText = "₹" + finalTotal;
+    bottomCartItems.innerText = totalItems + " items";
+    bottomCartTotal.innerText = "₹" + finalTotal + " Total";
+  }
+
+  // ===== LOCATION =====
+
+  function getLocation() {
+    const status = document.getElementById("locationStatus");
+
+    if (!navigator.geolocation) {
+      status.innerText = "आपका browser location support नहीं करता। कृपया address अच्छे से भर दें।";
+      return;
+    }
+
+    status.innerText = "लोकेशन ली जा रही है, कृपया इंतज़ार करें...";
+
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const lat = pos.coords.latitude.toFixed(6);
+        const lng = pos.coords.longitude.toFixed(6);
+        userLocationLink = `https://www.google.com/maps?q=${lat},${lng}`;
+        status.innerText = "लोकेशन जुड़ गई ✅ (Order में Google Maps लिंक आ जाएगा)";
+      },
+      (err) => {
+        console.error(err);
+        status.innerText = "लोकेशन नहीं ली जा सकी, कृपया address अच्छे से भर दें।";
+      }
+    );
+  }
+
+  // ===== SEND ORDER =====
+
+  function sendOrder(event) {
+    event.preventDefault();
+
+    // compute summary again to get final total
+    let totalItems = 0;
+    let itemsSubtotal = 0;
+    let milkSubDiscount = 0;
+    const cartLinesForMessage = [];
+
+    products.forEach(p => {
+      const qty = cart[p.id] || 0;
+      if (qty <= 0) return;
+
+      const variantSelect = document.getElementById("variant-" + p.id);
+      let variantIdx = 0;
+      if (variantSelect) {
+        variantIdx = parseInt(variantSelect.value, 10) || 0;
+      }
+      const variant = p.variants[variantIdx];
+      const price = variant.price;
+      const label = variant.label;
+
+      if (p.type === "milk") {
+        const state = getMilkState(p.id);
+        if (state.mode === "subscription") {
+          const plan = p.subscriptionPlans[state.selectedPlanIndex || 0];
+          const days = plan.days;
+          const discPercent = plan.discountPercent;
+
+          const baseUnits = qty * days;
+          const baseTotal = baseUnits * price;
+          const discAmount = Math.round(baseTotal * (discPercent / 100));
+          const net = baseTotal - discAmount;
+
+          totalItems += baseUnits;
+          itemsSubtotal += baseTotal;
+          milkSubDiscount += discAmount;
+
+          cartLinesForMessage.push(
+            `${p.name} ${label} – daily ${qty} × ${days} दिन = ₹${baseTotal} (discount ${discPercent}% = ₹${discAmount}, net ₹${net})`
+          );
+        } else {
+          const baseTotal = qty * price;
+          totalItems += qty;
+          itemsSubtotal += baseTotal;
+
+          cartLinesForMessage.push(
+            `${p.name} ${label} x ${qty} = ₹${baseTotal}`
+          );
+        }
+      } else {
+        const baseTotal = qty * price;
+        totalItems += qty;
+        itemsSubtotal += baseTotal;
+
+        cartLinesForMessage.push(
+          `${p.name} (${label}) x ${qty} = ₹${baseTotal}`
+        );
+      }
+    });
+
+    if (totalItems === 0) {
+      alert("कृपया कम से कम एक item चुनें।");
+      return;
+    }
+
+    subscriptionDiscountAmount = milkSubDiscount;
+    let afterSubTotal = itemsSubtotal - subscriptionDiscountAmount;
+    if (afterSubTotal < 0) afterSubTotal = 0;
+
+    if (couponApplied && afterSubTotal > 0) {
+      couponDiscountAmount = Math.round(afterSubTotal * (COUPON_DISCOUNT_PERCENT / 100));
+    } else {
+      couponDiscountAmount = 0;
+    }
+
+    let finalTotal = afterSubTotal - couponDiscountAmount;
+    if (finalTotal < 0) finalTotal = 0;
+
+    // customer details
+    const name = document.getElementById("customerName").value.trim();
+    const phone = document.getElementById("customerPhone").value.trim();
+    const pincode = document.getElementById("customerPincode").value.trim();
+    const address = document.getElementById("customerAddress").value.trim();
+
+    if (!name || !phone || !address) {
+      alert("कृपया नाम, मोबाइल और पता भरें।");
+      return;
+    }
+
+    // message
+    let message = "";
+    message += "🛒 *Nanigaon - गाँव से घर तक*\n";
+    message += "*New Grocery Order (QR Payment)*\n\n";
+
+    message += "*Customer:*\n";
+    message += "नाम: " + name + "\n";
+    message += "मोबाइल (WhatsApp): " + phone + "\n";
+    if (pincode) {
+      message += "Pincode: " + pincode + "\n";
+    }
+    message += "\n*Address:*\n" + address + "\n\n";
+
+    if (userLocationLink) {
+      message += "Location Map: " + userLocationLink + "\n\n";
+    }
+
+    message += "*Items:*\n";
+    cartLinesForMessage.forEach(line => {
+      message += "• " + line + "\n";
+    });
+
+    message += "\n*Billing Summary:*\n";
+    message += "Items Subtotal: ₹" + itemsSubtotal + "\n";
+    message += "Milk Subscription बचत: -₹" + subscriptionDiscountAmount + "\n";
+    if (couponApplied && couponDiscountAmount > 0) {
+      message += "Coupon (" + COUPON_CODE + ") Discount: -₹" + couponDiscountAmount + "\n";
+    } else {
+      message += "Coupon Discount: -₹0\n";
+    }
+    message += "Final Payable Amount: ₹" + finalTotal + "\n\n";
+
+    message += "Payment Mode: UPI QR (हम QR भेजेंगे, payment के बाद order confirm होगा)\n\n";
+
+    message += "📢 Offers & updates Insta page:\n" + INSTAGRAM_PAGE_URL + "\n\n";
+    message += "Time: " + new Date().toLocaleString();
+
+    const waUrl = "https://wa.me/" + OWNER_WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message);
+
+    document.getElementById("successMsg").style.display = "block";
+    window.open(waUrl, "_blank");
+  }
+
+  // ===== SCROLL HELPERS =====
+
+  function scrollToMilk() {
+    scrollToSection("sectionMilk");
+  }
+
+  function scrollToSection(id) {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: "smooth" });
+  }
+
+  function scrollToForm() {
+    const form = document.getElementById("orderForm");
+    if (form) form.scrollIntoView({ behavior: "smooth" });
+  }
+
+  // ===== INIT =====
+
+  document.getElementById("year").innerText = new Date().getFullYear();
+  document.getElementById("instaText").innerText = INSTAGRAM_PAGE_URL;
+  document.getElementById("instaTextFooter").innerText = INSTAGRAM_PAGE_URL;
+
+  renderProducts();
+  updateCartSummary();
+  setMilkMode(1, "one-time"); // default milk mode
+
+</script>
+</body>
+</html>
